@@ -24,6 +24,7 @@ local function playSound()
 end
 
 CreateThread(function()
+    Wait(10000)
     local isNotLoad = true
     while isNotLoad do
         local PlayerData = QBCore.Functions.GetPlayerData()
@@ -33,17 +34,21 @@ CreateThread(function()
         Wait(10000)
     end
 
+    local rate = Config.rate
+    local confHunger = Config.hunger
+    local confThirst = Config.thirst
+
     while true do
         local PlayerData = QBCore.Functions.GetPlayerData()
 
         local hunger = PlayerData.metadata["hunger"]
         local thirst = PlayerData.metadata["thirst"]
 
-        if hunger < Config.hunger or thirst < Config.thirst then
+        if hunger < confHunger or thirst < confThirst then
             playSound()
         end
 
-        if hunger < Config.hunger then
+        if hunger < confHunger then
             local randomhunger = math.random(1, 5)
             if randomhunger == 1 then
                 QBCore.Functions.Notify(Lang:t('hunger.hunger1'), 'success')
@@ -57,7 +62,7 @@ CreateThread(function()
                 QBCore.Functions.Notify(Lang:t('hunger.hunger5'), 'success')
             end
         end
-        if thirst < Config.thirst then
+        if thirst < confThirst then
             local randomhunger = math.random(1, 5)
             local randomthirst = math.random(1, 5)
 
@@ -73,7 +78,7 @@ CreateThread(function()
                 QBCore.Functions.Notify(Lang:t('thirst.thirst5'), 'success')
             end
         end
-        Wait(Config.rate)
+        Wait(rate)
     end
 
 end)
